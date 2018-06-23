@@ -31,12 +31,11 @@ public class WeatherApiController {
 
 	// -------------------Retrieve All Users---------------------------------------------
 
-	@RequestMapping(value = "/user/", method = RequestMethod.GET)
+	@RequestMapping(value = "/user/", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<User>> listAllUsers() {
 		List<User> users = userService.findAllUsers();
 		if (users.isEmpty()) {
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
-			// You many decide to return HttpStatus.NOT_FOUND
+			return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
 	}
@@ -49,8 +48,7 @@ public class WeatherApiController {
 		User user = userService.findById(id);
 		if (user == null) {
 			logger.error("User with id {} not found.", id);
-			return new ResponseEntity(new CustomErrorType("User with id " + id 
-					+ " not found"), HttpStatus.NOT_FOUND);
+			return new ResponseEntity<CustomErrorType>(new CustomErrorType("User with id " + id 	+ " not found"), HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
@@ -63,8 +61,7 @@ public class WeatherApiController {
 
 		if (userService.isUserExist(user)) {
 			logger.error("Unable to create. A User with name {} already exist", user.getUsername());
-			return new ResponseEntity(new CustomErrorType("Unable to create. A User with name " + 
-			user.getUsername() + " already exist."),HttpStatus.CONFLICT);
+			return new ResponseEntity<CustomErrorType>(new CustomErrorType("Unable to create. A User with name " + user.getUsername() + " already exist."),HttpStatus.CONFLICT);
 		}
 		userService.saveUser(user);
 
@@ -75,7 +72,7 @@ public class WeatherApiController {
 
 	// ------------------- Update a User ------------------------------------------------
 
-	@RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/user/{id}", method = RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> updateUser(@PathVariable("id") Integer id, @RequestBody User user) {
 		logger.info("Updating User with id {}", id);
 
@@ -83,8 +80,7 @@ public class WeatherApiController {
 
 		if (currentUser == null) {
 			logger.error("Unable to update. User with id {} not found.", id);
-			return new ResponseEntity(new CustomErrorType("Unable to upate. User with id " + id + " not found."),
-					HttpStatus.NOT_FOUND);
+			return new ResponseEntity<CustomErrorType>(new CustomErrorType("Unable to upate. User with id " + id + " not found."), HttpStatus.NOT_FOUND);
 		}
 
 		currentUser.setUsername(user.getUsername());
@@ -95,15 +91,14 @@ public class WeatherApiController {
 
 	// ------------------- Delete a User-----------------------------------------
 
-	@RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> deleteUser(@PathVariable("id") Integer id) {
 		logger.info("Fetching & Deleting User with id {}", id);
 
 		User user = userService.findById(id);
 		if (user == null) {
 			logger.error("Unable to delete. User with id {} not found.", id);
-			return new ResponseEntity(new CustomErrorType("Unable to delete. User with id " + id + " not found."),
-					HttpStatus.NOT_FOUND);
+			return new ResponseEntity<CustomErrorType>(new CustomErrorType("Unable to delete. User with id " + id + " not found."), HttpStatus.NOT_FOUND);
 		}
 		userService.deleteUserById(id);
 		return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
@@ -111,7 +106,7 @@ public class WeatherApiController {
 
 	// ------------------- Delete All Users-----------------------------
 
-	@RequestMapping(value = "/user/", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/user/", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<User> deleteAllUsers() {
 		logger.info("Deleting All Users");
 

@@ -8,10 +8,8 @@ import org.springframework.stereotype.Service;
 import com.msmata.weather.dao.UserRepository;
 import com.msmata.weather.model.User;
 
-
-
-@Service("usuarioService")
-public class UsuarioServiceImpl implements UserService{
+@Service("userService")
+public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	private UserRepository userRepository;
@@ -24,8 +22,8 @@ public class UsuarioServiceImpl implements UserService{
 		return userRepository.findOne(id);
 	}
 	
-	public User findByUsername(String name) {
-		return userRepository.findByUsername(name);
+	public User findByUsername(String username) {
+		return userRepository.findByUsername(username);
 	}
 	
 	public void saveUser(User user) {
