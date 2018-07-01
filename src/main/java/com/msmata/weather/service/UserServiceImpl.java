@@ -6,13 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.msmata.weather.dao.UserRepository;
+import com.msmata.weather.model.Location;
 import com.msmata.weather.model.User;
+import com.msmata.weather.util.ModelException;
 
 @Service("userService")
 public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private LocationService locationService;
 	
 	public List<User> findAllUsers() {
 		return userRepository.findAll();

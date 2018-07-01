@@ -1,5 +1,6 @@
 package com.msmata.weather.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -27,15 +28,16 @@ public class User {
 	@JoinTable(name = "usuario_locacion",
     joinColumns = @JoinColumn(name = "f_userid"),
     inverseJoinColumns = @JoinColumn(name = "f_locacionid"))
-	private Set<Location> locaciones;
+	private Set<Location> locations;
 	
 	public User(){
-		id=0;
+		locations = new HashSet<Location>();
 	}
 	
 	public User(Integer id, String username){
 		this.id = id;
 		this.username = username;
+		locations = new HashSet<Location>();
 	}
 	
 	public Integer getId() {
@@ -54,12 +56,12 @@ public class User {
 		this.username = username;
 	}
 
-	public Set<Location> getLocaciones() {
-		return locaciones;
+	public Set<Location> getLocations() {
+		return locations;
 	}
 
-	public void setLocaciones(Set<Location> locaciones) {
-		this.locaciones = locaciones;
+	public void setLocations(Set<Location> locations) {
+		this.locations = locations;
 	}
 
 	@Override

@@ -3,14 +3,17 @@ package com.msmata.weather;
 import static org.junit.Assert.assertTrue;
 
 import java.net.URI;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.junit.Test;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import com.msmata.weather.model.Location;
 import com.msmata.weather.model.User;
 
 public class WeatherTest {
@@ -72,9 +75,36 @@ public class WeatherTest {
 		restTemplate.delete(REST_SERVICE_URI + "/user/1");
 		restTemplate.getForObject(REST_SERVICE_URI + "/user/1", User.class);
 	}
+	
+	@Test
+	public void testFAddLocation() {
+		System.out.println("Testing update User API----------");
+		RestTemplate restTemplate = new RestTemplate();
+		User user = new User(3, "Tommy");
+		Location location = new Location();
+		location.setWoeid(23424747L);
+		location.setName("Cordoba");
+		user.getLocations().add(location);
+		restTemplate.put(REST_SERVICE_URI + "/user/3", user);
+		assertTrue(true);
+	}
+	
+//	@Test
+//	public void testFAddLocation(){
+//		System.out.println("Testing addLocation User API----------");
+//
+//		Map<String, String> params = new HashMap<String, String>();
+//		params.put("userid", "3");
+//		Location location = new Location();
+//		location.setWoeid(23424747L);
+//		location.setName("Cordoba");
+//		
+//		RestTemplate restTemplate = new RestTemplate();
+//		restTemplate.put(REST_SERVICE_URI + "/addLocation/", params, location);
+//	}
 
 	@Test
-	public void testFDeleteAllUsers() {
+	public void testGDeleteAllUsers() {
 		System.out.println("Testing all delete Users API----------");
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.delete(REST_SERVICE_URI + "/user/");

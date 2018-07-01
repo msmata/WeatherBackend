@@ -80,11 +80,11 @@ public class WeatherApiController {
 
 		if (currentUser == null) {
 			logger.error("Unable to update. User with id {} not found.", id);
-			return new ResponseEntity<CustomErrorType>(new CustomErrorType("Unable to upate. User with id " + id + " not found."), HttpStatus.NOT_FOUND);
+			return new ResponseEntity<CustomErrorType>(new CustomErrorType("Unable to update. User with id " + id + " not found."), HttpStatus.NOT_FOUND);
 		}
 
 		currentUser.setUsername(user.getUsername());
-
+		currentUser.getLocations().addAll(user.getLocations());
 		userService.saveUser(currentUser);
 		return new ResponseEntity<User>(currentUser, HttpStatus.OK);
 	}
@@ -113,5 +113,4 @@ public class WeatherApiController {
 		userService.deleteAllUsers();
 		return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
 	}
-
 }

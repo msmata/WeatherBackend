@@ -19,12 +19,14 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @Configuration
 @EnableTransactionManagement
 @PropertySource(value = { "classpath:application.properties" })
 @EnableJpaRepositories("com.msmata.weather.dao") 
-public class JpaConfiguration {
+public class JpaConfiguration extends WebMvcConfigurerAdapter{
 
 	@Autowired
 	private Environment environment;
@@ -69,5 +71,18 @@ public class JpaConfiguration {
 		JpaTransactionManager txManager = new JpaTransactionManager();
 		txManager.setEntityManagerFactory(emf);
 		return txManager;
+	}
+	
+	@Override
+	public void addCorsMappings(CorsRegistry registry) {
+ 
+		registry.addMapping("/api/user/*")
+				.allowedOrigins("*")
+				.allowedMethods("POST", "GET", "PUT", "DELETE")
+				.allowedHeaders("Content-Type")
+//				.exposedHeaders("header-1", "header-2")
+				.allowCredentials(false)
+				.maxAge(6000);
+ 
 	}
 }

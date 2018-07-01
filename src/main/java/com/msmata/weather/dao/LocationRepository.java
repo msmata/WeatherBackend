@@ -8,4 +8,5 @@ import com.msmata.weather.model.Location;
 @Repository
 public interface LocationRepository extends JpaRepository<Location, Integer> {
 
+	Location findByWoeid(Long woeid);
 }
